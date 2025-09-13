@@ -39,7 +39,7 @@ func singleConnectionBenchmark() {
 	for i := 0; i < iterations; i++ {
 		lat := measureLatency()
 		total += lat
-		
+
 		if lat < min {
 			min = lat
 		}
@@ -90,7 +90,7 @@ func concurrentBenchmark(connections int) {
 	for lat := range results {
 		total += lat
 		count++
-		
+
 		if lat < min {
 			min = lat
 		}
@@ -104,11 +104,11 @@ func concurrentBenchmark(connections int) {
 
 	avg := total / time.Duration(count)
 	successRate := float64(under1ms) / float64(count) * 100
-	throughput := float64(count) / totalDuration.Seconds()
+	//	throughput := float64(count) / totalDuration.Seconds()
 
 	fmt.Printf("Conexiones concurrentes: %d\n", connections)
 	fmt.Printf("Tiempo total: %v\n", totalDuration)
-	fmt.Printf("Throughput: %.0f req/s\n", throughput)
+	//	fmt.Printf("Throughput: %.0f req/s\n", throughput) // requests by second
 	fmt.Printf("Latencia promedio: %v\n", avg)
 	fmt.Printf("< 1ms: %.1f%%\n", successRate)
 }
