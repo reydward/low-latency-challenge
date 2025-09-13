@@ -17,7 +17,7 @@ func main() {
 	buffer := make([]byte, 64) // Reusable buffer
 
 	// Listen on localhost for minimal network latency
-	ln, err := net.Listen("tcp", "127.0.0.1:8080")
+	ln, err := net.Listen("tcp", "127.0.0.1:8081")
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func main() {
 		}
 
 		// Handle connection inline (no goroutine overhead)
-		conn.Read(buffer) // Read stimulus (ignore content)
+		conn.Read(buffer)    // Read stimulus (ignore content)
 		conn.Write(response) // Send fixed response
 		conn.Close()
 	}

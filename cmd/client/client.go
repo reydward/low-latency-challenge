@@ -2,14 +2,26 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
+	"os"
 	"time"
 )
 
 func main() {
+	// Setup logging
+	logFile, err := os.OpenFile("latency.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal("Error abriendo archivo de log:", err)
+	}
+	defer logFile.Close()
+
+	logger := log.New(logFile, "", log.LstdFlags)
+
 	// Single test
 	latency := measureLatency()
 	fmt.Printf("Latencia: %v\n", latency)
+	logger.Printf("Latencia individual: %v", latency)
 
 	// Multiple tests for statistical analysis
 	fmt.Println("\n--- Pruebas múltiples ---")
@@ -26,6 +38,7 @@ func main() {
 			max = lat
 		}
 		fmt.Printf("Test %d: %v\n", i+1, lat)
+		logger.Printf("Test %d: %v", i+1, lat)
 	}
 
 	avg := total / 10
@@ -34,6 +47,14 @@ func main() {
 	fmt.Printf("Mínimo: %v\n", min)
 	fmt.Printf("Máximo: %v\n", max)
 	fmt.Printf("Target <1ms: %t\n", avg < time.Millisecond)
+
+	// Log statistics
+	logger.Printf("=== ESTADÍSTICAS ===")
+	logger.Printf("Promedio: %v", avg)
+	logger.Printf("Mínimo: %v", min)
+	logger.Printf("Máximo: %v", max)
+	logger.Printf("Target <1ms: %t", avg < time.Millisecond)
+	logger.Printf("===================")
 }
 
 func measureLatency() time.Duration {
