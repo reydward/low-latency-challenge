@@ -1,4 +1,4 @@
-# ⚡ Ultra-Low Latency Challenge
+# ⚡ Sistema de latencia ultrabaja - Módulo 1
 
 Sistema de respuesta ultra-rápida diseñado para lograr latencias menores a 1 milisegundo.
 
@@ -32,7 +32,6 @@ Cliente ──localhost──► Servidor Go ──► "respuesta"
 - **Loopback Network**: Sin latencia de red física
 - **Single Thread**: GOMAXPROCS=1 para predictibilidad
 - **GC Disabled**: Sin pausas de garbage collection
-- **Pre-allocated Buffers**: Sin allocaciones durante operación
 - **Inline Processing**: Sin overhead de goroutines
 
 ## 🚀 Uso
@@ -77,27 +76,17 @@ chmod +x run.sh
 
 ## 📈 Monitoreo
 
-El sistema incluye métricas automáticas:
+El sistema incluye métricas automáticas almacenadas en `latency.log`:
 - Latencia promedio, mínima y máxima
 - Porcentaje de respuestas <1ms
 - Throughput(peticiones por unidad de tiempo) en requests/segundo
 - Pruebas de concurrencia
 
-## 🔧 Optimizaciones Avanzadas
-
-Para latencias aún menores, considera:
-
-1. **Unix Domain Sockets** en lugar de TCP
-2. **CPU Affinity** para cores dedicados  
-3. **Real-time scheduling** con `SCHED_FIFO`
-4. **Memory locking** con `mlock()`
-5. **DPDK** para bypass del kernel de red
-
 ## 🏃‍♂️ Inicio Rápido
 
 ```bash
 # Clonar y ejecutar en un comando
-git clone <repo> && cd low-latency-challenge && ./run.sh
+git clone https://github.com/reydward/low-latency-challenge.git && cd low-latency-challenge && ./run.sh
 
 # En terminal separada
 ./bin/server &
